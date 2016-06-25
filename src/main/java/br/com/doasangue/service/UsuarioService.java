@@ -1,11 +1,11 @@
-package br.com.doa_sangue.service;
+package br.com.doasangue.service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
-import br.com.doa_sangue.model.User;
+import br.com.doasangue.model.User;
 
 public class UsuarioService {
 

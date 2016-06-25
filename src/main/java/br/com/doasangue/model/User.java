@@ -1,4 +1,4 @@
-package br.com.doa_sangue.model;
+package br.com.doasangue.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

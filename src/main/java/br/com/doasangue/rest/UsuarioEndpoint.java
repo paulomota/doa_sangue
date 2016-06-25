@@ -1,4 +1,4 @@
-package br.com.doa_sangue.rest;
+package br.com.doasangue.rest;
 
 import java.io.IOException;
 
@@ -11,10 +11,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import br.com.doa_sangue.bean.ErroBean;
-import br.com.doa_sangue.model.ServerResponseBean;
-import br.com.doa_sangue.model.User;
-import br.com.doa_sangue.service.UsuarioService;
+import br.com.doasangue.bean.ErroBean;
+import br.com.doasangue.model.ServerResponseBean;
+import br.com.doasangue.model.User;
+import br.com.doasangue.service.UsuarioService;
 
 @Path("/usuario")
 @Consumes(MediaType.APPLICATION_JSON)

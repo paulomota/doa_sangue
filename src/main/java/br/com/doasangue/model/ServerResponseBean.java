@@ -1,4 +1,4 @@
-package br.com.doa_sangue.model;
+package br.com.doasangue.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import br.com.doa_sangue.bean.ErroBean;
-import br.com.doa_sangue.util.JSONUtil;
+import br.com.doasangue.bean.ErroBean;
+import br.com.doasangue.util.JSONUtil;
 
 public class ServerResponseBean {
 

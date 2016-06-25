@@ -1,4 +1,4 @@
-package br.com.doa_sangue.rest;
+package br.com.doasangue.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

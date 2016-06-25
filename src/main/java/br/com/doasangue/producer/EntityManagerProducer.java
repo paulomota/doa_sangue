@@ -1,4 +1,4 @@
-package br.com.doa_sangue.producer;
+package br.com.doasangue.producer;
 
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;

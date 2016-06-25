@@ -1,12 +1,12 @@
-package br.com.doa_sangue.rest;
+package br.com.doasangue.rest;
 
 
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import br.com.doa_sangue.bean.ErroBean;
-import br.com.doa_sangue.model.ServerResponseBean;
+import br.com.doasangue.bean.ErroBean;
+import br.com.doasangue.model.ServerResponseBean;
 
 public class AbstractEndpoint {
 

@@ -1,4 +1,4 @@
-package br.com.doa_sangue.bean;
+package br.com.doasangue.bean;
 
 public class ErroBean {
 

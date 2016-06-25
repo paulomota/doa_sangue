@@ -1,4 +1,4 @@
-package br.com.doa_sangue.util;
+package br.com.doasangue.util;
 
 import java.io.IOException;
 
