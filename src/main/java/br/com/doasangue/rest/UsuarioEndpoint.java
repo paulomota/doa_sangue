@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import br.com.doasangue.bean.ErroBean;
 import br.com.doasangue.model.ServerResponseBean;
 import br.com.doasangue.model.User;
-import br.com.doasangue.service.UsuarioService;
+import br.com.doasangue.service.UserService;
 
 @Path("/usuario")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -22,7 +22,7 @@ import br.com.doasangue.service.UsuarioService;
 public class UsuarioEndpoint extends AbstractEndpoint{
 
 	@Inject
-	private UsuarioService usuarioService;
+	private UserService usuarioService;
 	
 	@POST
 	@Path("/cadastrar")

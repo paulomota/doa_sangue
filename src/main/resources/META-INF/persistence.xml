@@ -15,4 +15,4 @@
 			<property name="hibernate.jdbc.use_scrollable_resultset" value="false" />
      	</properties>
     </persistence-unit>
-</persistence>
+</persistence> 

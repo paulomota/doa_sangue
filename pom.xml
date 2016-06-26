@@ -2,8 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	 
 	  <modelVersion>4.0.0</modelVersion>
-	  <groupId>com.mkyong.common</groupId>
-	  <artifactId>soa_sangue</artifactId>
+	  <groupId>br.com.doasangue</groupId>
+	  <artifactId>doa_sangue</artifactId>
 	  <packaging>war</packaging>
 	  <version>1.0-SNAPSHOT</version>
 	  <name>Doa Sangue</name>
@@ -137,6 +137,18 @@
 			    <version>1.5.4</version>
 			    <scope>runtime</scope>
 			</dependency>
+			<dependency>
+			    <groupId>org.apache.deltaspike.modules</groupId>
+			    <artifactId>deltaspike-data-module-api</artifactId>
+			    <version>1.5.4</version>
+			    <scope>compile</scope>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.deltaspike.modules</groupId>
+			    <artifactId>deltaspike-data-module-impl</artifactId>
+			    <version>1.5.4</version>
+			    <scope>runtime</scope>
+			</dependency>
 			
 			<!-- log4j -->
 			<dependency>
@@ -146,6 +158,26 @@
 			</dependency>
 			
 	  </dependencies>
+	  
+	  <!-- 
+	  <profiles>
+		  <profile>
+	            <id>openshift</id>
+	            <build>
+	                <plugins>
+	                    <plugin>
+	                        <artifactId>maven-war-plugin</artifactId>
+	                        <version>${version.war.plugin}</version>
+	                        <configuration>
+	                            <outputDirectory>deployments</outputDirectory>
+	                            <warName>ROOT</warName>
+	                        </configuration>
+	                    </plugin>
+	                </plugins>
+	            </build>
+	      </profile>
+      </profiles>
+	   -->
 	  
 	  <build>
 	    	<finalName>doa_sangue</finalName>
