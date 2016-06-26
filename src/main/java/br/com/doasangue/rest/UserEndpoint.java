@@ -12,29 +12,34 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.doasangue.bean.ErroBean;
+import br.com.doasangue.exception.ValidationException;
 import br.com.doasangue.model.ServerResponseBean;
 import br.com.doasangue.model.User;
+import br.com.doasangue.repository.UserRepository;
 import br.com.doasangue.service.UserService;
 
-@Path("/usuario")
+@Path("/user")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class UsuarioEndpoint extends AbstractEndpoint{
+public class UserEndpoint extends AbstractEndpoint{
 
 	@Inject
-	private UserService usuarioService;
+	private UserService userService;
+	
+	@Inject
+	private UserRepository userRepository;
 	
 	@POST
-	@Path("/cadastrar")
-	public Response cadastrar(User usuario) throws IOException {
+	@Path("/register")
+	public Response cadastrar(User user) throws IOException {
 		ServerResponseBean serverResponse = new ServerResponseBean(false, 200);
 		
-		log.info(usuario.toString());
-		
 		try{
-			usuarioService.cadastrar(usuario);
+			log.info(user.toString());
+		
+			userService.cadastrar(user);
 			
-			serverResponse.setData(usuario);
+			serverResponse.setData(user);
 			
 		} catch(PersistenceException pe){
 			log.error("Tentando cadastrar usuário com email já existente");
@@ -46,5 +51,28 @@ public class UsuarioEndpoint extends AbstractEndpoint{
 		}
 		
 		return serverResponse.getResponse();
+	}
+	
+	@POST
+	@Path("/update")
+	public Response updateUser(User user) throws IOException{
+		if(user == null || user.getId() == null){
+			return getErrorResponse("Não foi possível receber os dados do usuário");
+		}
+		
+		try{
+			log.info(user.toString());
+			
+			User userUpdated = userService.update(user);
+			
+			return getSucessResponse(userUpdated);
+			
+		} catch(ValidationException ve){
+			return getErrorResponse(ve.getMsgErrors().get(0));
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			return getErrorResponse(e.getMessage());
+		}
 	}
 }
