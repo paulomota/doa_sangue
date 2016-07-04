@@ -59,6 +59,12 @@ public class ServerResponseBean {
 				} else if (this.data instanceof String) {
 					responseJson.put("data", "{" + this.data + "}");
 					
+				} else if (this.data instanceof Enum) {
+					responseJson.put("data", this.data);
+					
+				} else if (this.data instanceof Enum[]) {
+					responseJson.put("data", JSONUtil.constructJSONArray(this.data));
+					
 				} else {
 					
 					responseJson.put("data", JSONUtil.constructJSONObject(this.data));

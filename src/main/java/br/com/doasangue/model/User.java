@@ -1,20 +1,35 @@
 package br.com.doasangue.model;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import br.com.doasangue.enums.BloodTypeEnum;
+import br.com.doasangue.enums.GenderEnum;
+
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator="increment")
-	@GenericGenerator(name="increment", strategy = "increment")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column(name = "name", nullable = false)
@@ -26,9 +41,32 @@ public class User {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "gender")
+	private GenderEnum gender;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "birthdate")
+	private Date birthdate;
+	
+	@Column(name = "weight")
+	private Float weight;
+
+	@ManyToOne
+	@JoinColumn(name="city_id", referencedColumnName="id")
+	private City city;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "blood_type")
+	private BloodTypeEnum bloodType;
+	
 	private String lat;
 	
 	private String lng;
+	
+	@Lob
+    @Column(name="picture", columnDefinition="mediumblob")
+    private byte[] picture;
 	
 	public Long getId() {
 		return id;
@@ -76,6 +114,54 @@ public class User {
 
 	public void setLng(String lng) {
 		this.lng = lng;
+	}
+
+	public GenderEnum getGender() {
+		return gender;
+	}
+
+	public void setGender(GenderEnum gender) {
+		this.gender = gender;
+	}
+
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public Float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Float weight) {
+		this.weight = weight;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public BloodTypeEnum getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(BloodTypeEnum bloodType) {
+		this.bloodType = bloodType;
+	}
+
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
 	}
 
 	@Override
