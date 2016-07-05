@@ -9,6 +9,8 @@ import br.com.doasangue.model.User;
 public interface UserRepository extends EntityRepository<User, Long>{
 
 	User findByEmailAndPassword(String email, String password);
+	
+	User findByEmail(String email);
 
 	User findOptionalByEmail(String email);
 	

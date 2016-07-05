@@ -68,6 +68,9 @@ public class User implements Serializable{
     @Column(name="picture", columnDefinition="mediumblob")
     private byte[] picture;
 	
+	@Column(name="picture_path")
+	private String picturePath;
+	
 	public Long getId() {
 		return id;
 	}
@@ -162,6 +165,14 @@ public class User implements Serializable{
 
 	public void setPicture(byte[] picture) {
 		this.picture = picture;
+	}
+
+	public String getPicturePath() {
+		return picturePath;
+	}
+
+	public void setPicturePath(String picturePath) {
+		this.picturePath = picturePath;
 	}
 
 	@Override

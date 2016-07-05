@@ -17,6 +17,17 @@ Ex JSON User
 
 {"id":1,"name":"Paulo Mota","email":"pauloroberto.mota@gmail.com","password":"e10adc3949ba59abbe56e057f20f883e","lat":null,"lng":null}
 
+###(POST) /users/update-picture
+Headers:
+Content-type: multipart/form-data; boundary=Nounce
+Accept-Encoding: multipart/form-data
+
+
+Parametro JSON do tipo MultipartFormDTO exemplo: 
+{
+email: "emaildousuario@email.com",
+filedata: *aqui o array de bytes da imagem* 
+}
 
 ###(GET) /city
 Retorna a lista de cidades cadastradas
