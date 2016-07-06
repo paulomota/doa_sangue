@@ -1,5 +1,6 @@
 package br.com.doasangue.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.deltaspike.core.util.StringUtils;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
@@ -81,5 +83,45 @@ public class UserService {
 			throw new ValidationException(errors);
 		}
 	}
-	
+
+	public User updatePicturePath(Long userId, String pictureUrl) throws ValidationException {
+		User user = userRespository.findBy(userId);
+		
+		if(user == null){
+			throw new ValidationException("Não foi possível encontrar o usuário para atualizar a foto de perfil");
+		}
+		
+		user.setPicturePath(pictureUrl);
+		
+		return user;
+	}
+
+	public List<User> searchReceivers(Long userId) {
+		String sqlString = " select id, name, email, gender, birthdate, weight, blood_type, picture_path " +
+					" from user where id <> :userId " +
+					" and id not in ( " +
+					" 	select receiver_id from donation where donor_id = :userId" +
+					")";
+		
+		Query query = em.createNativeQuery(sqlString);
+		query.setParameter("userId", userId);
+		query.setMaxResults(12);
+		
+		List<Object[]> usersArray = (List<Object[]>) query.getResultList();
+		
+		List<User> usersList = new ArrayList<User>();
+
+		for (Object[] item : usersArray) {
+			User user = new User();
+			
+			user.setId(((BigInteger) item[0]).longValue());
+			user.setName((String) item[1]);
+			user.setEmail((String) item[2]);
+			
+			usersList.add(user);
+		}
+		
+		return usersList;
+	}
+
 }

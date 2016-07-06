@@ -17,10 +17,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import br.com.doasangue.enums.BloodTypeEnum;
 import br.com.doasangue.enums.GenderEnum;
+import br.com.doasangue.enums.RoleEnum;
 
 @Entity
 @Table(name = "user")
@@ -29,7 +28,7 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "name", nullable = false)
@@ -41,6 +40,10 @@ public class User implements Serializable{
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	@Enumerated(EnumType.STRING)
+	@Column(name = "role")
+	private RoleEnum role;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "gender")
 	private GenderEnum gender;
@@ -173,6 +176,14 @@ public class User implements Serializable{
 
 	public void setPicturePath(String picturePath) {
 		this.picturePath = picturePath;
+	}
+
+	public RoleEnum getRole() {
+		return role;
+	}
+
+	public void setRole(RoleEnum role) {
+		this.role = role;
 	}
 
 	@Override

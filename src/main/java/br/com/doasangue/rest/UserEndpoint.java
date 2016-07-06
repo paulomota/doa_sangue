@@ -1,17 +1,16 @@
 package br.com.doasangue.rest;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URI;
 
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -56,7 +55,8 @@ public class UserEndpoint extends AbstractEndpoint{
 			serverResponse.setData(user);
 			
 		} catch(PersistenceException pe){
-			log.error("Tentando cadastrar usuário com email já existente");
+			log.error("Provavel: Tentando cadastrar usuário com email já existente");
+			pe.printStackTrace();
 			serverResponse = getServerResponseError(ErroBean.USUARIO_EMAIL_JA_CADASTRADO);
 			
 		} catch(Exception e){
@@ -90,11 +90,26 @@ public class UserEndpoint extends AbstractEndpoint{
 		}
 	}
 	
+	@POST
+	@Path("/update-picture/{userId}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response updatePicture(@PathParam("userId") Long userId, @FormParam("pictureUrl") String pictureUrl) throws IOException{
+		try{
+			User user = userService.updatePicturePath(userId, pictureUrl);
+			
+			return getSucessResponse(user);
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			return getErrorResponse(e.getMessage());
+		}
+	}
+	
 	@PUT
 	@Path("/update-picture") 
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Transactional
-	public Response updatePicture(@MultipartForm MultipartFormDTO pictureForm) throws IOException{
+	public Response updatePictureWithFile(@MultipartForm MultipartFormDTO pictureForm) throws IOException{
 		try{
 			User user = userRepository.findByEmail(pictureForm.getEmail());
 			

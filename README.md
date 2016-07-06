@@ -12,16 +12,19 @@ Parametro JSON User
 ###(POST) /user/update
 Parametro JSON User
 
-
 Ex JSON User
 
-{"id":1,"name":"Paulo Mota","email":"pauloroberto.mota@gmail.com","password":"e10adc3949ba59abbe56e057f20f883e","lat":null,"lng":null}
+{"id":1,"name":"Paulo Mota","email":"nomedapessoa@gmail.com","password":"e10adc3949ba59abbe56e057f20f883e","lat":null,"lng":null}
 
-###(POST) /users/update-picture
+###(POST) /users/update-picture/{userId}
+Content-type: application/x-www-form-urlencoded
+
+FormParam: pictureUrl (String)
+
+###(POST) /users/update-picture (Em teste, aqui envia a imagem de fato)
 Headers:
 Content-type: multipart/form-data; boundary=Nounce
 Accept-Encoding: multipart/form-data
-
 
 Parametro JSON do tipo MultipartFormDTO exemplo: 
 {
@@ -38,4 +41,18 @@ O parametro é a sigla do estado, sempre com duas letras
 
 ###(GET) /blood-type
 Retorna a lista de tipos sanguineos
+
+###(GET) /receiver/{userId}
+Retorna uma lista de usuarios recebedores para o usuario do id informado,
+hoje o tamanho máximo dessa lista é de 12 itens
+
+Response: JsonArray de Users
+
+###(POST) /donation
+Content-type: application/x-www-form-urlencoded
+
+Parametros:
+donorId - (long) id do usuario que está doando
+receiverId - (long) id do usuario que está recebendo
+match - (boolean) opcao do doador para com o recebedor
 
