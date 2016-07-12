@@ -99,6 +99,45 @@ public class UserEndpoint extends AbstractEndpoint{
 			
 			return getSucessResponse(user);
 			
+		} catch(ValidationException ve){
+			return getErrorResponse(ve.getMsgErrors().get(0));
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			return getErrorResponse(e.getMessage());
+		}
+	}
+	
+	@POST
+	@Path("/update-geolocation/{userId}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response updateGeolocation(@PathParam("userId") Long userId, @FormParam("lat") String lat, @FormParam("lng") String lng) throws IOException{
+		try{
+			User user = userService.updateGeolocation(userId, lat, lng);
+			
+			return getSucessResponse(user);
+			
+		} catch(ValidationException ve){
+			return getErrorResponse(ve.getMsgErrors().get(0));
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			return getErrorResponse(e.getMessage());
+		}
+	}
+	
+	@POST
+	@Path("/update-role/{userId}/{roleInitial}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response updateGeolocation(@PathParam("userId") Long userId, @PathParam("roleInitial") String roleInitial) throws IOException{
+		try{
+			User user = userService.updateRole(userId, roleInitial);
+			
+			return getSucessResponse(user);
+			
+		} catch(ValidationException ve){
+			return getErrorResponse(ve.getMsgErrors().get(0));
+			
 		} catch(Exception e){
 			e.printStackTrace();
 			return getErrorResponse(e.getMessage());

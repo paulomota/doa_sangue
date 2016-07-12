@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import org.apache.deltaspike.core.util.StringUtils;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
+import br.com.doasangue.enums.RoleEnum;
 import br.com.doasangue.exception.ValidationException;
 import br.com.doasangue.model.User;
 import br.com.doasangue.repository.UserRepository;
@@ -93,9 +94,46 @@ public class UserService {
 		
 		user.setPicturePath(pictureUrl);
 		
+		user = userRespository.save(user);
+		
 		return user;
 	}
 
+	public User updateGeolocation(Long userId, String lat, String lng) throws ValidationException {
+		User user = userRespository.findBy(userId);
+		
+		if(user == null){
+			throw new ValidationException("Não foi possível encontrar o usuário para atualizar a geo localização");
+		}
+		
+		user.setLat(lat);
+		user.setLng(lng);
+		
+		user = userRespository.save(user);
+		
+		return user;
+	}
+	
+	public User updateRole(Long userId, String roleInitial) throws ValidationException {
+		User user = userRespository.findBy(userId);
+		
+		if(user == null){
+			throw new ValidationException("Não foi possível encontrar o usuário para atualizar a geo localização");
+		}
+		
+		if(StringUtils.isEmpty(roleInitial)){
+			throw new ValidationException("Informe a nova função do usuário");
+		}
+		
+		RoleEnum role = RoleEnum.valueOf(roleInitial);
+		
+		user.setRole(role);
+		
+		user = userRespository.save(user);
+		
+		return user;
+	}
+	
 	public List<User> searchReceivers(Long userId) {
 		String sqlString = " select id, name, email, gender, birthdate, weight, blood_type, picture_path " +
 					" from user where id <> :userId " +

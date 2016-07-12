@@ -16,6 +16,16 @@ Ex JSON User
 
 {"id":1,"name":"Paulo Mota","email":"nomedapessoa@gmail.com","password":"e10adc3949ba59abbe56e057f20f883e","lat":null,"lng":null}
 
+###(POST) /users/update-geolocation/{userId}
+Content-type: application/x-www-form-urlencoded
+
+FormParam: lat (String), lng (String)
+
+###(POST) /users/update-role/{userId}/{roleInitial}
+Content-type: application/x-www-form-urlencoded
+
+roleInitial pode ser: R (receiver) ou D (donor)
+
 ###(POST) /users/update-picture/{userId}
 Content-type: application/x-www-form-urlencoded
 
