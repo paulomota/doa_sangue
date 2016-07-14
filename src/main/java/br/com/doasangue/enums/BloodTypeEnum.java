@@ -9,7 +9,8 @@ public enum BloodTypeEnum {
 	AB_Neg("AB-"),
 	AB_Pos("AB+"),
 	O_Neg("O-"),
-	O_Pos("O+");
+	O_Pos("O+"),
+	UNDEFINED("U");
 	
 	private String name;
 	
@@ -21,8 +22,4 @@ public enum BloodTypeEnum {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 }

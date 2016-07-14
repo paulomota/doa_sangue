@@ -19,7 +19,7 @@ Ex JSON User
 ###(POST) /users/update-geolocation/{userId}
 Content-type: application/x-www-form-urlencoded
 
-FormParam: lat (String), lng (String)
+FormParam: lat (String), lng (String), city (String)
 
 ###(POST) /users/update-role/{userId}/{roleInitial}
 Content-type: application/x-www-form-urlencoded
@@ -30,24 +30,6 @@ roleInitial pode ser: R (receiver) ou D (donor)
 Content-type: application/x-www-form-urlencoded
 
 FormParam: pictureUrl (String)
-
-###(POST) /users/update-picture (Em teste, aqui envia a imagem de fato)
-Headers:
-Content-type: multipart/form-data; boundary=Nounce
-Accept-Encoding: multipart/form-data
-
-Parametro JSON do tipo MultipartFormDTO exemplo: 
-{
-email: "emaildousuario@email.com",
-filedata: *aqui o array de bytes da imagem* 
-}
-
-###(GET) /city
-Retorna a lista de cidades cadastradas
-
-###(GET) /city?state=DF
-Retorna a lista de cidades cadastradas para o estado informado
-O parametro é a sigla do estado, sempre com duas letras
 
 ###(GET) /blood-type
 Retorna a lista de tipos sanguineos
@@ -65,4 +47,7 @@ Parametros:
 donorId - (long) id do usuario que está doando
 receiverId - (long) id do usuario que está recebendo
 match - (boolean) opcao do doador para com o recebedor
+
+###(GET) /about
+Retorna o texto da sessão sobre do app
 

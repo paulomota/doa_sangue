@@ -99,7 +99,7 @@ public class UserService {
 		return user;
 	}
 
-	public User updateGeolocation(Long userId, String lat, String lng) throws ValidationException {
+	public User updateGeolocation(Long userId, String lat, String lng, String city) throws ValidationException {
 		User user = userRespository.findBy(userId);
 		
 		if(user == null){
@@ -108,6 +108,7 @@ public class UserService {
 		
 		user.setLat(lat);
 		user.setLng(lng);
+		user.setCity(city);
 		
 		user = userRespository.save(user);
 		

@@ -111,9 +111,12 @@ public class UserEndpoint extends AbstractEndpoint{
 	@POST
 	@Path("/update-geolocation/{userId}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response updateGeolocation(@PathParam("userId") Long userId, @FormParam("lat") String lat, @FormParam("lng") String lng) throws IOException{
+	public Response updateGeolocation(@PathParam("userId") Long userId, 
+									@FormParam("lat") String lat, 
+									@FormParam("lng") String lng, 
+									@FormParam("city") String city) throws IOException{
 		try{
-			User user = userService.updateGeolocation(userId, lat, lng);
+			User user = userService.updateGeolocation(userId, lat, lng, city);
 			
 			return getSucessResponse(user);
 			

@@ -10,16 +10,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import br.com.doasangue.enums.BloodTypeEnum;
 import br.com.doasangue.enums.GenderEnum;
 import br.com.doasangue.enums.RoleEnum;
+import br.com.doasangue.enums.UrgencyEnum;
 
 @Entity
 @Table(name = "user")
@@ -55,9 +55,18 @@ public class User implements Serializable{
 	@Column(name = "weight")
 	private Float weight;
 
-	@ManyToOne
-	@JoinColumn(name="city_id", referencedColumnName="id")
-	private City city;
+	@Column(name="city")
+	private String city;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "urgency")
+	private UrgencyEnum urgency;
+	
+	@Column(name="hospital")
+	private String hospital;
+	
+	@Column(name="reason")
+	private String reason;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "blood_type")
@@ -66,10 +75,6 @@ public class User implements Serializable{
 	private String lat;
 	
 	private String lng;
-	
-	@Lob
-    @Column(name="picture", columnDefinition="mediumblob")
-    private byte[] picture;
 	
 	@Column(name="picture_path")
 	private String picturePath;
@@ -130,10 +135,19 @@ public class User implements Serializable{
 		this.gender = gender;
 	}
 
+	@JsonIgnore
 	public Date getBirthdate() {
 		return birthdate;
 	}
 
+	public Long getBirhdate(){
+		if(birthdate != null){
+			return birthdate.getTime();
+		}
+		
+		return null;
+	}
+	
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
 	}
@@ -146,11 +160,11 @@ public class User implements Serializable{
 		this.weight = weight;
 	}
 
-	public City getCity() {
+	public String getCity() {
 		return city;
 	}
 
-	public void setCity(City city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 
@@ -160,14 +174,6 @@ public class User implements Serializable{
 
 	public void setBloodType(BloodTypeEnum bloodType) {
 		this.bloodType = bloodType;
-	}
-
-	public byte[] getPicture() {
-		return picture;
-	}
-
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
 	}
 
 	public String getPicturePath() {
@@ -184,6 +190,30 @@ public class User implements Serializable{
 
 	public void setRole(RoleEnum role) {
 		this.role = role;
+	}
+
+	public UrgencyEnum getUrgency() {
+		return urgency;
+	}
+
+	public void setUrgency(UrgencyEnum urgency) {
+		this.urgency = urgency;
+	}
+
+	public String getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(String hospital) {
+		this.hospital = hospital;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 	@Override
