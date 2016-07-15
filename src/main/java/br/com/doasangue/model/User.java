@@ -14,8 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import br.com.doasangue.enums.BloodTypeEnum;
 import br.com.doasangue.enums.GenderEnum;
 import br.com.doasangue.enums.RoleEnum;
@@ -135,12 +133,7 @@ public class User implements Serializable{
 		this.gender = gender;
 	}
 
-	@JsonIgnore
-	public Date getBirthdate() {
-		return birthdate;
-	}
-
-	public Long getBirhdate(){
+	public Long getBirthdate(){
 		if(birthdate != null){
 			return birthdate.getTime();
 		}
