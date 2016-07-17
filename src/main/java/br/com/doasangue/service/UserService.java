@@ -14,7 +14,9 @@ import javax.persistence.Query;
 import org.apache.deltaspike.core.util.StringUtils;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
+import br.com.doasangue.enums.BloodTypeEnum;
 import br.com.doasangue.enums.RoleEnum;
+import br.com.doasangue.enums.UrgencyEnum;
 import br.com.doasangue.exception.ValidationException;
 import br.com.doasangue.model.User;
 import br.com.doasangue.repository.UserRepository;
@@ -52,6 +54,7 @@ public class UserService {
 		userFromDB.setEmail(user.getEmail());
 		userFromDB.setLat(user.getLat());
 		userFromDB.setLng(user.getLng());
+		userFromDB.setWeight(user.getWeight());
 		
 		userFromDB = em.merge(userFromDB);
 		
@@ -71,7 +74,10 @@ public class UserService {
 		} else if(!EmailUtil.isValid(user.getEmail())){
 			errors.add("O e-mail informado não é um e-mail válido.");
 			
-		} else{
+		} 
+
+		//Validação apenas para novos usuarios
+		if(user.getId() == null){
 			User userWithEmail = userRespository.findOptionalByEmail(user.getEmail());
 				
 			if(userWithEmail != null){
@@ -135,12 +141,21 @@ public class UserService {
 		return user;
 	}
 	
-	public List<User> searchReceivers(Long userId) {
+	public List<User> searchReceivers(Long userId, String bloodType, Float distance, String urgency) {
+		
 		String sqlString = " select id, name, email, gender, birthdate, weight, blood_type, picture_path " +
 					" from user where id <> :userId " +
 					" and id not in ( " +
 					" 	select receiver_id from donation where donor_id = :userId" +
-					")";
+					")" ;
+		
+		if(urgency != null){
+			sqlString += " and urgency = " + urgency + " ";
+		}
+		
+		if(bloodType != null){
+			sqlString += " and blood_type = " + bloodType + " ";
+		}
 		
 		Query query = em.createNativeQuery(sqlString);
 		query.setParameter("userId", userId);
@@ -161,6 +176,24 @@ public class UserService {
 		}
 		
 		return usersList;
+	}
+
+	public User updateReceiverInfo(Long receiverId, String hospital, String urgency, String reason) throws ValidationException {
+		User user = userRespository.findBy(receiverId);
+		
+		if(user == null){
+			throw new ValidationException("Não foi possível encontrar o usuário para atualizar as informações");
+		}
+
+		UrgencyEnum urgencyEnum = UrgencyEnum.valueOf(urgency);
+		
+		user.setUrgency(urgencyEnum);
+		user.setHospital(hospital);
+		user.setReason(reason);
+		
+		userRespository.save(user);
+		
+		return user;
 	}
 
 }

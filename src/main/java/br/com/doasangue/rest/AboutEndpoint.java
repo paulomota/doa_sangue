@@ -17,7 +17,7 @@ public class AboutEndpoint extends AbstractEndpoint {
 	public Response getAbout() throws IOException{
 		try{
 			
-			return getSucessResponse("");
+			return getSucessResponse("Sobre: Este é o app doa sangue.");
 			
 		} catch(Exception e){
 			return getErrorResponse(e.getMessage());

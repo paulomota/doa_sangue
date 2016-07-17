@@ -16,20 +16,21 @@ Ex JSON User
 
 {"id":1,"name":"Paulo Mota","email":"nomedapessoa@gmail.com","password":"e10adc3949ba59abbe56e057f20f883e","lat":null,"lng":null}
 
-###(POST) /users/update-geolocation/{userId}
+###(POST) /user/update-geolocation/{userId}
 Content-type: application/x-www-form-urlencoded
-
 FormParam: lat (String), lng (String), city (String)
 
-###(POST) /users/update-role/{userId}/{roleInitial}
+###(POST) /user/update-role/{userId}/{roleInitial}
 Content-type: application/x-www-form-urlencoded
-
 roleInitial pode ser: R (receiver) ou D (donor)
 
-###(POST) /users/update-picture/{userId}
+###(POST) /user/update-picture/{userId}
 Content-type: application/x-www-form-urlencoded
-
 FormParam: pictureUrl (String)
+
+###(POST) /user/update-receiver-info/{receiverId}
+Content-type: application/x-www-form-urlencoded
+FormParam: hospital (String), urgency (String), reason (String)
 
 ###(GET) /blood-type
 Retorna a lista de tipos sanguineos

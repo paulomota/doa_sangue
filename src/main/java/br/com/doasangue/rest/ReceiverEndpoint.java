@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -23,9 +24,12 @@ public class ReceiverEndpoint extends AbstractEndpoint{
 	
 	@GET
 	@Path("/{userId}")
-	public Response searchReceivers(@PathParam("userId") Long userId) throws IOException{
+	public Response searchReceivers(@PathParam("userId") Long userId, 
+									@QueryParam("bloodType") String bloodType, 
+									@QueryParam("distance") Float distance,
+									@QueryParam("urgency") String urgency) throws IOException{
 		try{
-			List<User> receivers = userService.searchReceivers(userId);
+			List<User> receivers = userService.searchReceivers(userId, bloodType, distance, urgency);
 			
 			return getSucessResponse(receivers);
 			
