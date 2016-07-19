@@ -2,6 +2,7 @@ package br.com.doasangue.service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -15,6 +16,7 @@ import org.apache.deltaspike.core.util.StringUtils;
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import br.com.doasangue.enums.BloodTypeEnum;
+import br.com.doasangue.enums.GenderEnum;
 import br.com.doasangue.enums.RoleEnum;
 import br.com.doasangue.enums.UrgencyEnum;
 import br.com.doasangue.exception.ValidationException;
@@ -143,7 +145,7 @@ public class UserService {
 	
 	public List<User> searchReceivers(Long userId, String bloodType, Float distance, String urgency) {
 		
-		String sqlString = " select id, name, email, gender, birthdate, weight, blood_type, picture_path " +
+		String sqlString = " select id, name, email, gender, birthdate, weight, urgency, blood_type, picture_path, hospital, reason, city " +
 					" from user where id <> :userId " +
 					" and id not in ( " +
 					" 	select receiver_id from donation where donor_id = :userId" +
@@ -171,6 +173,33 @@ public class UserService {
 			user.setId(((BigInteger) item[0]).longValue());
 			user.setName((String) item[1]);
 			user.setEmail((String) item[2]);
+			
+			String genderString = (String) item[3];
+			if(genderString != null){
+				GenderEnum gender = GenderEnum.valueOf(genderString);
+				user.setGender(gender);
+			}
+			
+			user.setBirthdate((Date) item[4]);
+			user.setWeight((Float) item[5]);
+
+			String urgencyString = (String) item[6];
+			if(urgencyString != null){
+				UrgencyEnum urgencyEnum = UrgencyEnum.valueOf(urgencyString);
+				user.setUrgency(urgencyEnum);
+			}
+			
+			String bloodTypeString = (String) item[7];
+			if(bloodTypeString != null){
+				BloodTypeEnum bloodTypeEnum = BloodTypeEnum.valueOf(bloodTypeString);
+				user.setBloodType(bloodTypeEnum);
+			}
+			
+			user.setPicturePath((String) item[8]);
+			
+			user.setHospital((String) item[9]);
+			user.setReason((String) item[10]);
+			user.setCity((String) item[11]);
 			
 			usersList.add(user);
 		}
