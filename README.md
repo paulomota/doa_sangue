@@ -36,6 +36,12 @@ FormParam: hospital (String), urgency (String), reason (String)
 Content-type: application/x-www-form-urlencoded
 FormParam: userId (long), deviceToken (String)
 
+###(POST) /chat
+Content-type: application/x-www-form-urlencoded
+FormParam: senderId (long), receiverId (long), message (String)
+
+OBS: O usuario destinatario da mensagem (receiverId) precisa ter o deviceToken cadastrado
+
 ###(GET) /blood-type
 Retorna a lista de tipos sanguineos
 
