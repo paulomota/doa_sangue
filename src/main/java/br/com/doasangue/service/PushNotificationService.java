@@ -22,7 +22,7 @@ import br.com.doasangue.model.User;
 
 public class PushNotificationService {
 
-	private static final String PROJECT_KEY = "AIzaSyCf9ZPteA7SajcDhhGcTvOytYJ7pH-nfxg";
+	private static final String PROJECT_KEY = "AIzaSyDNwjKb4z1qP_idT2PNPBwBUQQSw7fZMqQ";
 	
 	public static void main(String args[]) throws IOException, JSONException, JAXBException{
 		System.out.println("Inicio\n");
