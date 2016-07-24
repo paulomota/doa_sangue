@@ -18,26 +18,32 @@ Ex JSON User
 
 ###(POST) /user/update-geolocation/{userId}
 Content-type: application/x-www-form-urlencoded
+
 FormParam: lat (String), lng (String), city (String)
 
 ###(POST) /user/update-role/{userId}/{roleInitial}
 Content-type: application/x-www-form-urlencoded
+
 roleInitial pode ser: R (receiver) ou D (donor)
 
 ###(POST) /user/update-picture/{userId}
 Content-type: application/x-www-form-urlencoded
+
 FormParam: pictureUrl (String)
 
 ###(POST) /user/update-receiver-info/{receiverId}
 Content-type: application/x-www-form-urlencoded
+
 FormParam: hospital (String), urgency (String), reason (String)
 
 ###(POST) /user/update-device-token
 Content-type: application/x-www-form-urlencoded
+
 FormParam: userId (long), deviceToken (String)
 
 ###(POST) /chat
 Content-type: application/x-www-form-urlencoded
+
 FormParam: senderId (long), receiverId (long), message (String)
 
 OBS: O usuario destinatario da mensagem (receiverId) precisa ter o deviceToken cadastrado
