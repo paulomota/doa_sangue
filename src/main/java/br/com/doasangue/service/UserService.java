@@ -225,4 +225,18 @@ public class UserService {
 		return user;
 	}
 
+	public User updateDeviceToken(Long userId, String deviceToken) throws ValidationException {
+		User user = userRespository.findBy(userId);
+		
+		if(user == null){
+			throw new ValidationException("Não foi possível encontrar o usuário para atualizar o device token");
+		}
+		
+		user.setDeviceToken(deviceToken);
+		
+		userRespository.save(user);
+		
+		return user;
+	}
+
 }

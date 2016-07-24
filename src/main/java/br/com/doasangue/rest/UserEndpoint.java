@@ -159,6 +159,24 @@ public class UserEndpoint extends AbstractEndpoint{
 		}
 	}
 	
-	
+	@POST
+	@Path("/update-device-token")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response updateDeviceToken(@FormParam("userId") Long userId, 
+									@FormParam("deviceToken") String deviceToken) throws IOException{
+		try{
+			User user = userService.updateDeviceToken(userId, deviceToken);
+			
+			return getSucessResponse(user);
+			
+			
+		} catch(ValidationException ve){
+			return getErrorResponse(ve.getMsgErrors().get(0));
+			
+		} catch(Exception e){
+			e.printStackTrace();
+			return getErrorResponse(e.getMessage());
+		}
+	}
 	
 }

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "doasangue-19a5f",
+  "private_key_id": "bfee8f402192ce7bc0d3b61b99cd371e7a1d6710",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCvDZvZQ0k8euvR\nxNh26KvNu697dS0oypeBRe7urKPNV4tanJVLK7iVMeTSl4bxcomdrzfk0Oj84tcV\nAEDZiX2HnUkX3ct9exPmkyFL4qjOWzQO4t/e78x9Roi3cD9n8NERO7oLQVSlcA2A\nB9rUof/oovLoLuwYc/Tc1xWUEjS+d5A9XkG6wg0LdvnQQ/GY5OLTXBnG3YvWh8yR\nLkjI9DfyL2kqK7U4n9swXSZLwXLuqNwkIQtmUBhNvmvSs87+d7bJAqf0Z8rHPMXF\nMueh3/dW42sxRUvYz0/fSnsXoiWcpqN7njBW47RHoZNZrDBcHiRxoYENBtogWj5O\nA6TWxHPpAgMBAAECggEAay0c11eP9lyYF1W65oqr7YlU9nSWkpv/SKHFmRHQND++\nTVsDOQPqvkXPAHTPpPJoeUe3I/wYOgS0hOIj0kyQs8BD6T3dgdUiKRC52RlMGxPR\n+q9DO957x9OwjwdFeuEBT9jOnmeAaM4DJfkpLPiGkyt5J1jbKlmMeM2jI4ZGDrpn\n895hl392lGi5hQWGlWDyWBrN3CLLsg2nIfTm89liJSB27M1UGzC309w38/4rSeaJ\nF2Kl2Au0XdKWogcIva4bC5+1oEXUWgFNqB7ABdeziUXpXbJ3gnyQM55vx5Je3jRl\nwVITN1R8lltUeEbXrzkXqezaoyfxRXveXssqk8JAAQKBgQDdf7VYLQESELlyR6RR\nZekRg9YXa2v/X4gxOFc6UerR5nCphejg0ada/EkTbIMP6NFwiJxnaInN503Ef/vg\nDnESfayJCLbl2CwEElFOlWDSstz0MaBex7iYbim9mJq6xnzI1h0lF+VtlcpJlF3/\nSJCsTDmnwfIvh2aZU6/ozCML6QKBgQDKUd93HYWU3gwZsJTiX6902BTVYM4UbmpB\nN+ftDD0b60eLDjNLefV5/e/ZUpGlEz2hBZng2+sgYLEgqwBkqG+tsZ+FlRXKfVLr\nh7YNkgu+mSGyfsSe8XS3TOXX4/Xp/M/tZ9rIT2x/poeW68MwhVlM3rr72qDg2Cu+\nyY+TwH0oAQKBgQDSDFqnjL4YKJ4EHqZXvqIARxqOyQL4gNrBemFV3/skJDiwull2\nYbsoEFkoP14mhy2eXx6a/cq45WGdN5VfC7L0yxMEPKxdWNuc3NYYBJZ2GMJqHGmt\nmA6ZFtckggQxnSsWtd2boIaknkjf8AAXp/PyQLLoQIbvxaJpQrBtvrB5iQKBgQCH\nLNqcUDou84isJWHkOcAV1kVdJ3epCPivKHYp2DKAE9vSGaPF+u87GaIF1nf/DfLw\nQbjFFspq8I+H3xi9KBituW52ptxPVRpwyVSmjnyQVOnBw5cFBxhPW+55JxLnygT2\nfpwbl41LYG1ZNZ5NLdszU+EkYrd4YpYfu7XVJxe4AQKBgCb0gQdH9QyCEmyz6mo/\njzwhQ4oZ606AS0QF7OEYKuFilNTRxOTxF4gFdSNJrdYlN1+g7MxQ5txkbwYPVddy\nCzu+OJClX6+3BKenRP4VSWFdONaZRw0lg15F9j6TKFddfiNl60rMzyfiOSex6ADp\njEYEgvWZwGWH7vVSaEJ2jjZK\n-----END PRIVATE KEY-----\n",
+  "client_email": "doasangue-accountservice@doasangue-19a5f.iam.gserviceaccount.com",
+  "client_id": "107594498068203063934",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/doasangue-accountservice%40doasangue-19a5f.iam.gserviceaccount.com"
+}

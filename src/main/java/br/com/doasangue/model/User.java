@@ -77,6 +77,9 @@ public class User implements Serializable{
 	@Column(name="picture_path")
 	private String picturePath;
 	
+	@Column(name="device_token")
+	private String deviceToken;
+	
 	public Long getId() {
 		return id;
 	}
@@ -207,6 +210,14 @@ public class User implements Serializable{
 
 	public void setReason(String reason) {
 		this.reason = reason;
+	}
+
+	public String getDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		this.deviceToken = deviceToken;
 	}
 
 	@Override

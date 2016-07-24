@@ -32,6 +32,10 @@ FormParam: pictureUrl (String)
 Content-type: application/x-www-form-urlencoded
 FormParam: hospital (String), urgency (String), reason (String)
 
+###(POST) /user/update-device-token
+Content-type: application/x-www-form-urlencoded
+FormParam: userId (long), deviceToken (String)
+
 ###(GET) /blood-type
 Retorna a lista de tipos sanguineos
 

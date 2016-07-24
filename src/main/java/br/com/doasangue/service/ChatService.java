@@ -1,34 +1,28 @@
 package br.com.doasangue.service;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.xml.bind.JAXBException;
 
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
+import org.codehaus.jettison.json.JSONException;
+
+import br.com.doasangue.model.User;
+import br.com.doasangue.repository.UserRepository;
+
+@RequestScoped
+@Transactional
 public class ChatService {
 	
-	private static ChatService instance;
-	
-	public ChatService(){
-		if(instance == null){
-			
-		}
-		
-	}
-	
-	public ChatService getInstance() throws FileNotFoundException{
-		if(instance == null){
-			instance = new ChatService();
-			
-			FirebaseOptions options = new FirebaseOptions.Builder()
-			  .setServiceAccount(new FileInputStream("path/to/serviceAccountCredentials.json"))
-			  .setDatabaseUrl("https://databaseName.firebaseio.com/")
-			  .build();
-			FirebaseApp.initializeApp(options);
-		}
-		
-		return instance;
-	}
+	@Inject
+	private UserRepository userRepository;
 
+	public String sendMessage(Long senderId, Long receiverId, String message) throws IOException, JSONException, JAXBException{
+		User sender = userRepository.findBy(senderId);
+		User receiver = userRepository.findBy(receiverId);
+		
+		return PushNotificationService.sendPushNotification(sender, receiver, message);
+	}
 }
