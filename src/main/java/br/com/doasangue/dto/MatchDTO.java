@@ -1,5 +1,7 @@
 package br.com.doasangue.dto;
 
+import java.util.Date;
+
 import br.com.doasangue.model.User;
 
 public class MatchDTO {
@@ -8,13 +10,16 @@ public class MatchDTO {
 	
 	private User user;
 
+	private Date matchDate;
+	
 	public MatchDTO(){
 		
 	}
 	
-	public MatchDTO(Long id, User user){
+	public MatchDTO(Long id, User user, Date matchDate){
 		this.id = id;
 		this.user = user;
+		this.matchDate = matchDate;
 	}
 	
 	public Long getId() {
@@ -32,6 +37,13 @@ public class MatchDTO {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+	public Date getMatchDate() {
+		return matchDate;
+	}
+
+	public void setMatchDate(Date matchDate) {
+		this.matchDate = matchDate;
+	}
 	
 }

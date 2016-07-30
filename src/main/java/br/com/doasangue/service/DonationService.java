@@ -1,5 +1,6 @@
 package br.com.doasangue.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,8 +10,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.xml.bind.JAXBException;
 
 import org.apache.deltaspike.jpa.api.transaction.Transactional;
+import org.codehaus.jettison.json.JSONException;
 
 import br.com.doasangue.dto.MatchDTO;
 import br.com.doasangue.exception.ValidationException;
@@ -28,7 +31,7 @@ public class DonationService {
 	@Inject
 	private UserRepository userRepository;
 	
-	public Donation register(Long donorId, Long receiverId, Boolean hasMatch) throws ValidationException{
+	public Donation register(Long donorId, Long receiverId, Boolean hasMatch) throws ValidationException, IOException, JSONException, JAXBException{
 		User donor = userRepository.findBy(donorId);
 		User receiver = userRepository.findBy(receiverId);
 		
@@ -49,13 +52,15 @@ public class DonationService {
 		em.persist(donation);
 		em.flush();
 		
+		PushNotificationService.sendPushNotification(donor, receiver, "Você tem um novo doador");
+		
 		return donation;
 	}
 
 	public List<MatchDTO> findMatchedReceivers(Long donorId, Long lastMatchId) {
 		List<MatchDTO> matchs = new ArrayList<MatchDTO>();
 		
-		String sql = "select d.id, d.receiver from Donation d where d.donor.id = :donorId and d.matched is true";
+		String sql = "select d.id, d.receiver, d.registerDate from Donation d where d.donor.id = :donorId and d.matched is true";
 		
 		if(lastMatchId != null){
 			sql += " and d.id > :lastMatchId ";
@@ -76,8 +81,9 @@ public class DonationService {
 		for (Object[] donation : donations) {
 			Long id = (Long) donation[0];
 			User user = (User) donation[1];
+			Date registerDate = (Date) donation[2];
 			
-			matchs.add(new MatchDTO(id, user));
+			matchs.add(new MatchDTO(id, user, registerDate));
 		}
 		
 		return matchs;
