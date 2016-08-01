@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import br.com.doasangue.dto.MatchDTO;
 import br.com.doasangue.service.DonationService;
 
-@Path("/match")
+@Path("/match") 
 @Produces(MediaType.APPLICATION_JSON)
 public class MatchEndpoint extends AbstractEndpoint{
 
@@ -23,11 +23,11 @@ public class MatchEndpoint extends AbstractEndpoint{
 	private DonationService donationService;
 	
 	@GET
-	@Path("/{donorId}")
-	public Response getMyMatchs(@PathParam("donorId") Long donorId, @QueryParam("lastMatchId") Long lastMatchId) throws IOException{
+	@Path("/{userId}")
+	public Response getMyMatchs(@PathParam("userId") Long userId, @QueryParam("lastMatchId") Long lastMatchId) throws IOException{
 		try{
 			
-			List<MatchDTO> matchs = donationService.findMatchedReceivers(donorId, lastMatchId);
+			List<MatchDTO> matchs = donationService.findMatches(userId, lastMatchId);
 			
 			return getSucessResponse(matchs);
 			

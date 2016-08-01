@@ -16,6 +16,7 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import org.codehaus.jettison.json.JSONException;
 
 import br.com.doasangue.dto.MatchDTO;
+import br.com.doasangue.enums.RoleEnum;
 import br.com.doasangue.exception.ValidationException;
 import br.com.doasangue.model.Donation;
 import br.com.doasangue.model.User;
@@ -57,7 +58,49 @@ public class DonationService {
 		return donation;
 	}
 
-	public List<MatchDTO> findMatchedReceivers(Long donorId, Long lastMatchId) {
+	public List<MatchDTO> findMatches(Long userId, Long lastMatchId) {
+		User user = userRepository.findBy(userId);
+		
+		if(user.getRole() == null || user.getRole() == RoleEnum.D){
+			return findMatchedDonors(userId, lastMatchId);
+		} else{
+			return findMatchedReceivers(userId, lastMatchId);
+		}
+	}
+	
+	public List<MatchDTO> findMatchedDonors(Long userId, Long lastMatchId) {
+		List<MatchDTO> matchs = new ArrayList<MatchDTO>();
+		
+		String sql = "select d.id, d.donor, d.registerDate from Donation d where d.receiver.id = :receiverId and d.matched is true";
+		
+		if(lastMatchId != null){
+			sql += " and d.id > :lastMatchId ";
+		}
+		
+		sql += " order by d.registerDate desc";
+		
+		Query query = em.createQuery(sql);
+		query.setMaxResults(20);
+		query.setParameter("receiverId", userId);
+		
+		if(lastMatchId != null){
+			query.setParameter("lastMatchId", lastMatchId);
+		}
+		
+		List<Object[]> donations = (List<Object[]>) query.getResultList();
+		
+		for (Object[] donation : donations) {
+			Long id = (Long) donation[0];
+			User user = (User) donation[1];
+			Date registerDate = (Date) donation[2];
+			
+			matchs.add(new MatchDTO(id, user, registerDate));
+		}
+		
+		return matchs;
+	}
+	
+	public List<MatchDTO> findMatchedReceivers(Long userId, Long lastMatchId) {
 		List<MatchDTO> matchs = new ArrayList<MatchDTO>();
 		
 		String sql = "select d.id, d.receiver, d.registerDate from Donation d where d.donor.id = :donorId and d.matched is true";
@@ -70,7 +113,7 @@ public class DonationService {
 		
 		Query query = em.createQuery(sql);
 		query.setMaxResults(20);
-		query.setParameter("donorId", donorId);
+		query.setParameter("donorId", userId);
 		
 		if(lastMatchId != null){
 			query.setParameter("lastMatchId", lastMatchId);

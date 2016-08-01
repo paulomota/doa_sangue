@@ -12,9 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "donation")
+@Table(name = "donation", uniqueConstraints=@UniqueConstraint(columnNames={"donor_id", "receiver_id"}))
 public class Donation {
 
 	@Id

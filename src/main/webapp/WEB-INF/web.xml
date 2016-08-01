@@ -17,6 +17,11 @@
 		<param-value>/rest</param-value>
 	</context-param>
 
+	<context-param>
+	    <param-name>resteasy.providers</param-name>
+	    <param-value>br.com.doasangue.interceptor.SecurityInterceptor</param-value>
+	</context-param>
+
 	<listener>
 		<listener-class>
 			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap

@@ -18,13 +18,14 @@ import org.codehaus.jettison.json.JSONObject;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 
+import br.com.doasangue.exception.ValidationException;
 import br.com.doasangue.model.User;
 
 public class PushNotificationService {
 
 	private static final String PROJECT_KEY = "AIzaSyDNwjKb4z1qP_idT2PNPBwBUQQSw7fZMqQ";
 	
-	public static void main(String args[]) throws IOException, JSONException, JAXBException{
+	public static void main(String args[]) throws IOException, JSONException, JAXBException, ValidationException{
 		System.out.println("Inicio\n");
 
 		PushNotificationService ps = new PushNotificationService();
@@ -52,11 +53,29 @@ public class PushNotificationService {
 		FirebaseApp.initializeApp(options);
 	}
 	
-	public static String sendPushNotification(User sender, User receiver, String message) throws IOException, JSONException, JAXBException {
+	public static String sendPushNotification(User sender, User receiver, String message) throws IOException, JSONException, JAXBException, ValidationException {
+		if(receiver.getDeviceToken() == null){
+			throw new ValidationException("O usuário receber não possui um device token cadastrado");
+		}
+		
 		JSONObject senderData = new JSONObject();
 		senderData.put("id", sender.getId());
 		senderData.put("name", sender.getName());
 		senderData.put("email", sender.getEmail());
+		senderData.put("role", sender.getRole());
+		senderData.put("gender", sender.getGender());
+		senderData.put("weight", sender.getWeight());
+		senderData.put("city", sender.getCity());
+		senderData.put("urgency", sender.getUrgency());
+		senderData.put("urgency", sender.getUrgency());
+		senderData.put("bloodType", sender.getBloodType());
+		senderData.put("picturePath", sender.getPicturePath());
+		senderData.put("lat", sender.getLat());
+		senderData.put("lng", sender.getLng());
+		
+		if(sender.getBirthdate() != null){
+			senderData.put("birthdate", sender.getBirthdate().longValue());
+		}
 		
 		JSONObject messageData = new JSONObject();
 		messageData.put("message", message);
@@ -66,7 +85,7 @@ public class PushNotificationService {
 		requestData.put("to", receiver.getDeviceToken());
 		requestData.put("data", messageData);
 		
-		System.out.println(requestData);
+		System.out.println("\n\nrequestData: " + requestData + "\n");
 		
 		URL url = new URL("https://fcm.googleapis.com/fcm/send");
 		HttpURLConnection conn= (HttpURLConnection) url.openConnection(); 
@@ -77,11 +96,13 @@ public class PushNotificationService {
 		conn.setRequestProperty("charset", "utf-8");
 		
 		OutputStream os = conn.getOutputStream();
-		os.write(requestData.toString().getBytes());
+		os.write(requestData.toString().getBytes("UTF-8"));
 		os.flush();
 		
 		if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-			System.out.println(conn.getInputStream());
+			System.out.println("\nErrorStream: " + conn.getErrorStream());
+			System.out.println("\nResponse Message" + conn.getResponseMessage());
+			
 			throw new RuntimeException("ERRO " + conn.getResponseCode() );
 		}
 		
