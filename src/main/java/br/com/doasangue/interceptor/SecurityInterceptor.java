@@ -26,7 +26,10 @@ public class SecurityInterceptor implements ContainerRequestFilter{
 		System.out.println("\npath: " + path);
 		
 		if(path.equals("/user/register") ||
-				path.equals("/login")){
+				path.equals("/login") || 
+				path.equals("/blood-type") ||
+				path.equals("/about")
+				){
 			
 			return;
 		}

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.xml.bind.JAXBException;
@@ -70,65 +71,77 @@ public class DonationService {
 	
 	public List<MatchDTO> findMatchedDonors(Long userId, Long lastMatchId) {
 		List<MatchDTO> matchs = new ArrayList<MatchDTO>();
-		
-		String sql = "select d.id, d.donor, d.registerDate from Donation d where d.receiver.id = :receiverId and d.matched is true";
-		
-		if(lastMatchId != null){
-			sql += " and d.id > :lastMatchId ";
-		}
-		
-		sql += " order by d.registerDate desc";
-		
-		Query query = em.createQuery(sql);
-		query.setMaxResults(20);
-		query.setParameter("receiverId", userId);
-		
-		if(lastMatchId != null){
-			query.setParameter("lastMatchId", lastMatchId);
-		}
-		
-		List<Object[]> donations = (List<Object[]>) query.getResultList();
-		
-		for (Object[] donation : donations) {
-			Long id = (Long) donation[0];
-			User user = (User) donation[1];
-			Date registerDate = (Date) donation[2];
+
+		try{
+			String sql = "select d.id, d.receiver, d.registerDate from Donation d where d.donor.id = :donorId and d.matched is true";
 			
-			matchs.add(new MatchDTO(id, user, registerDate));
+			if(lastMatchId != null){
+				sql += " and d.id > :lastMatchId ";
+			}
+			
+			sql += " order by d.registerDate desc";
+			
+			Query query = em.createQuery(sql);
+			query.setMaxResults(20);
+			query.setParameter("donorId", userId);
+			
+			if(lastMatchId != null){
+				query.setParameter("lastMatchId", lastMatchId);
+			}
+			
+			List<Object[]> donations = (List<Object[]>) query.getResultList();
+			
+			for (Object[] donation : donations) {
+				Long id = (Long) donation[0];
+				User user = (User) donation[1];
+				Date registerDate = (Date) donation[2];
+				
+				matchs.add(new MatchDTO(id, user, registerDate));
+			}
+			
+			return matchs;
+			
+		} catch(NoResultException nre){
+			return matchs;
 		}
 		
-		return matchs;
 	}
 	
 	public List<MatchDTO> findMatchedReceivers(Long userId, Long lastMatchId) {
 		List<MatchDTO> matchs = new ArrayList<MatchDTO>();
-		
-		String sql = "select d.id, d.receiver, d.registerDate from Donation d where d.donor.id = :donorId and d.matched is true";
-		
-		if(lastMatchId != null){
-			sql += " and d.id > :lastMatchId ";
-		}
-		
-		sql += " order by d.registerDate desc";
-		
-		Query query = em.createQuery(sql);
-		query.setMaxResults(20);
-		query.setParameter("donorId", userId);
-		
-		if(lastMatchId != null){
-			query.setParameter("lastMatchId", lastMatchId);
-		}
-		
-		List<Object[]> donations = (List<Object[]>) query.getResultList();
-		
-		for (Object[] donation : donations) {
-			Long id = (Long) donation[0];
-			User user = (User) donation[1];
-			Date registerDate = (Date) donation[2];
+
+		try{
+			String sql = "select d.id, d.donor, d.registerDate from Donation d where d.receiver.id = :receiverId and d.matched is true";
 			
-			matchs.add(new MatchDTO(id, user, registerDate));
+			if(lastMatchId != null){
+				sql += " and d.id > :lastMatchId ";
+			}
+			
+			sql += " order by d.registerDate desc";
+			
+			Query query = em.createQuery(sql);
+			query.setMaxResults(20);
+			query.setParameter("receiverId", userId);
+			
+			if(lastMatchId != null){
+				query.setParameter("lastMatchId", lastMatchId);
+			}
+			
+			List<Object[]> donations = (List<Object[]>) query.getResultList();
+			
+			for (Object[] donation : donations) {
+				Long id = (Long) donation[0];
+				User user = (User) donation[1];
+				Date registerDate = (Date) donation[2];
+				
+				matchs.add(new MatchDTO(id, user, registerDate));
+			}
+			
+			return matchs;
+			
+		} catch(NoResultException nre){
+			return matchs;
 		}
 		
-		return matchs;
 	}
 }
