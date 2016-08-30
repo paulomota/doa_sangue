@@ -20,7 +20,7 @@ import br.com.doasangue.service.UserService;
 public class ReceiverEndpoint extends AbstractEndpoint{
 
 	@Inject
-	private UserService userService;
+	private UserService userService;		
 	
 	@GET
 	@Path("/{userId}")

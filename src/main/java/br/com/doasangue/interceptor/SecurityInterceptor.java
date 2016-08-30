@@ -19,7 +19,6 @@ public class SecurityInterceptor implements ContainerRequestFilter{
 	@Inject
 	private UserService userService;
 	
-	@Override
 	public void filter(ContainerRequestContext containerRequest) throws IOException {
 		String path = containerRequest.getUriInfo().getPath();
 

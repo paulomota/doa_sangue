@@ -149,7 +149,8 @@ public class UserService {
 					" from user where id <> :userId " +
 					" and id not in ( " +
 					" 	select receiver_id from donation where donor_id = :userId" +
-					")" ;
+					") " +
+					" and urgency is not null and hospital is not null and reason is not null " ;
 		
 		if(urgency != null){
 			sqlString += " and urgency = " + urgency + " ";

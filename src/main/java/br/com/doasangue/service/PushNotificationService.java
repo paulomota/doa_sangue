@@ -69,7 +69,7 @@ public class PushNotificationService {
 		senderData.put("urgency", sender.getUrgency());
 		senderData.put("urgency", sender.getUrgency());
 		senderData.put("bloodType", sender.getBloodType());
-		senderData.put("picturePath", sender.getPicturePath());
+		senderData.put("picturePath", sender.getPicturePath());				
 		senderData.put("lat", sender.getLat());
 		senderData.put("lng", sender.getLng());
 		
