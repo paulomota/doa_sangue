@@ -63,17 +63,17 @@ public class DonationService {
 		User user = userRepository.findBy(userId);
 		
 		if(user.getRole() == null || user.getRole() == RoleEnum.D){
-			return findMatchedDonors(userId, lastMatchId);
-		} else{
 			return findMatchedReceivers(userId, lastMatchId);
+		} else{
+			return findMatchedDonors(userId, lastMatchId);
 		}
 	}
 	
-	public List<MatchDTO> findMatchedDonors(Long userId, Long lastMatchId) {
+	public List<MatchDTO> findMatchedDonors(Long receiverId, Long lastMatchId) {
 		List<MatchDTO> matchs = new ArrayList<MatchDTO>();
 
 		try{
-			String sql = "select d.id, d.receiver, d.registerDate from Donation d where d.donor.id = :donorId and d.matched is true";
+			String sql = "select d.id, d.donor, d.registerDate from Donation d where d.receiver.id = :receiverId and d.matched is true";
 			
 			if(lastMatchId != null){
 				sql += " and d.id > :lastMatchId ";
@@ -83,7 +83,7 @@ public class DonationService {
 			
 			Query query = em.createQuery(sql);
 			query.setMaxResults(20);
-			query.setParameter("donorId", userId);
+			query.setParameter("receiverId", receiverId);
 			
 			if(lastMatchId != null){
 				query.setParameter("lastMatchId", lastMatchId);
@@ -107,11 +107,12 @@ public class DonationService {
 		
 	}
 	
-	public List<MatchDTO> findMatchedReceivers(Long userId, Long lastMatchId) {
+	public List<MatchDTO> findMatchedReceivers(Long donorId, Long lastMatchId) {
 		List<MatchDTO> matchs = new ArrayList<MatchDTO>();
 
 		try{
-			String sql = "select d.id, d.donor, d.registerDate from Donation d where d.receiver.id = :receiverId and d.matched is true";
+			String sql = " select d.id, d.receiver, d.registerDate "
+					+ " from Donation d where d.donor.id = :donorId and d.matched is true";
 			
 			if(lastMatchId != null){
 				sql += " and d.id > :lastMatchId ";
@@ -121,7 +122,7 @@ public class DonationService {
 			
 			Query query = em.createQuery(sql);
 			query.setMaxResults(20);
-			query.setParameter("receiverId", userId);
+			query.setParameter("donorId", donorId);
 			
 			if(lastMatchId != null){
 				query.setParameter("lastMatchId", lastMatchId);

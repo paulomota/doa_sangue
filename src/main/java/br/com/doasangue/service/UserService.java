@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -143,13 +144,18 @@ public class UserService {
 		return user;
 	}
 	
-	public List<User> searchReceivers(Long userId, String bloodType, Float distance, String urgency) {
+	public List<User> searchReceivers(Long donorId, String bloodType, Float distance, String urgency, String lat, String lng) {
+		String sqlString = " select id, name, email, gender, birthdate, weight, urgency, blood_type, picture_path, hospital, reason, city ";
 		
-		String sqlString = " select id, name, email, gender, birthdate, weight, urgency, blood_type, picture_path, hospital, reason, city " +
-					" from user where id <> :userId " +
-					" and id not in ( " +
-					" 	select receiver_id from donation where donor_id = :userId" +
-					")" ;
+		if(lat != null && lng != null){
+			sqlString += " , ( 6371 * acos( cos( radians("+lat+") ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians("+lng+") ) " +
+				    " + sin( radians("+lat+") ) * sin( radians( latitude ) ) ) ) AS distance "; 
+		}
+		
+		sqlString += " from user where id <> :donorId and role = :role " +
+					 " and id not in ( " +
+					 " 	select receiver_id from donation where donor_id = :donorId" +
+					 " )" ;
 		
 		if(urgency != null){
 			sqlString += " and urgency = " + urgency + " ";
@@ -160,7 +166,8 @@ public class UserService {
 		}
 		
 		Query query = em.createNativeQuery(sqlString);
-		query.setParameter("userId", userId);
+		query.setParameter("donorId", donorId);
+		query.setParameter("role", RoleEnum.R.toString());
 		query.setMaxResults(12);
 		
 		List<Object[]> usersArray = (List<Object[]>) query.getResultList();
@@ -200,6 +207,10 @@ public class UserService {
 			user.setHospital((String) item[9]);
 			user.setReason((String) item[10]);
 			user.setCity((String) item[11]);
+			
+			if(lat != null && lng != null){
+				user.setDistance((Double) item[12]);
+			}
 			
 			usersList.add(user);
 		}

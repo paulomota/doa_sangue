@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import br.com.doasangue.enums.BloodTypeEnum;
 import br.com.doasangue.enums.GenderEnum;
@@ -79,6 +80,9 @@ public class User implements Serializable{
 	
 	@Column(name="device_token")
 	private String deviceToken;
+	
+	@Transient
+	private Double distance;
 	
 	public Long getId() {
 		return id;
@@ -218,6 +222,14 @@ public class User implements Serializable{
 
 	public void setDeviceToken(String deviceToken) {
 		this.deviceToken = deviceToken;
+	}
+
+	public Double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
 	}
 
 	@Override

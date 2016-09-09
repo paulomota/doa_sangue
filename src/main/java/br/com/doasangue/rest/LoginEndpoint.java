@@ -16,6 +16,7 @@ import org.apache.deltaspike.jpa.api.transaction.Transactional;
 import br.com.doasangue.exception.ValidationException;
 import br.com.doasangue.model.User;
 import br.com.doasangue.repository.UserRepository;
+import br.com.doasangue.service.EmailService;
 import br.com.doasangue.service.UserService;
 
 @Path("/login")
@@ -27,6 +28,9 @@ public class LoginEndpoint extends AbstractEndpoint{
 	
 	@Inject
 	private UserRepository userRepository;
+	
+	@Inject
+	private EmailService emailService;
 	
 	@GET
 	@Path("/")
@@ -71,6 +75,8 @@ public class LoginEndpoint extends AbstractEndpoint{
 			if(user == null){
 				throw new ValidationException("Nenhum usuário encontrado com o e-mail informado");
 			}
+			
+			emailService.sendEmail(user.getEmail(), "Recuperação de Senha", "Aguarde, em desenvolvimento");
 			
 			return getSucessResponse("Enviamos um e-mail com as instruções para recuperar sua senha.");
 			
