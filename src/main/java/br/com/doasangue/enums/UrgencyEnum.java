@@ -3,7 +3,8 @@ package br.com.doasangue.enums;
 public enum UrgencyEnum {
 
 	I("Imediato"),
-	C("Combine");
+	C("Combine"),
+	U("Undefined");
 	
 	private String name;
 	

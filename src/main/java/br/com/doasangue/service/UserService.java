@@ -148,22 +148,28 @@ public class UserService {
 		String sqlString = " select id, name, email, gender, birthdate, weight, urgency, blood_type, picture_path, hospital, reason, city ";
 		
 		if(lat != null && lng != null){
-			sqlString += " , ( 6371 * acos( cos( radians("+lat+") ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians("+lng+") ) " +
-				    " + sin( radians("+lat+") ) * sin( radians( latitude ) ) ) ) AS distance "; 
+			sqlString += " , ( 6371 * acos( cos( radians("+lat+") ) * cos( radians( lat ) ) * cos( radians( lng ) - radians("+lng+") ) " +
+				    " + sin( radians("+lat+") ) * sin( radians( lat ) ) ) ) AS distance "; 
 		}
 		
 		sqlString += " from user where id <> :donorId and role = :role " +
 					 " and id not in ( " +
-					 " 	select receiver_id from donation where donor_id = :donorId" +
+					 " 		select receiver_id from donation where donor_id = :donorId" +
 					 " )" ;
 		
-		if(urgency != null){
-			sqlString += " and urgency = " + urgency + " ";
+		if(urgency != null && !urgency.isEmpty()){
+			sqlString += " and urgency = '" + urgency + "' ";
 		}
 		
-		if(bloodType != null){
-			sqlString += " and blood_type = " + bloodType + " ";
+		if(bloodType != null && !bloodType.isEmpty()){
+			sqlString += " and blood_type = '" + bloodType + "' ";
 		}
+		
+		if(lat != null && lng != null && distance != null){
+			sqlString += " order by distance ";
+		}
+		
+		System.out.println("\n" + sqlString + "\n");
 		
 		Query query = em.createNativeQuery(sqlString);
 		query.setParameter("donorId", donorId);
@@ -212,7 +218,9 @@ public class UserService {
 				user.setDistance((Double) item[12]);
 			}
 			
-			usersList.add(user);
+			if(user.getDistance() == null || user.getDistance() <= distance + 1){
+				usersList.add(user);
+			}
 		}
 		
 		return usersList;
