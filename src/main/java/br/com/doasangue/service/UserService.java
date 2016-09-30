@@ -57,6 +57,7 @@ public class UserService {
 		userFromDB.setLat(user.getLat());
 		userFromDB.setLng(user.getLng());
 		userFromDB.setWeight(user.getWeight());
+		userFromDB.setBloodType(user.getBloodType());
 		
 		userFromDB = em.merge(userFromDB);
 		
