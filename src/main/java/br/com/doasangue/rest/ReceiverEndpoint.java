@@ -27,9 +27,11 @@ public class ReceiverEndpoint extends AbstractEndpoint{
 	public Response searchReceivers(@PathParam("userId") Long userId, 
 									@QueryParam("bloodType") String bloodType, 
 									@QueryParam("distance") Float distance,
-									@QueryParam("urgency") String urgency) throws IOException{
+									@QueryParam("urgency") String urgency,
+									@QueryParam("lat") String lat,
+									@QueryParam("lng") String lng) throws IOException{
 		try{
-			List<User> receivers = userService.searchReceivers(userId, bloodType, distance, urgency);
+			List<User> receivers = userService.searchReceivers(userId, bloodType, distance, urgency, lat, lng);
 			
 			return getSucessResponse(receivers);
 			

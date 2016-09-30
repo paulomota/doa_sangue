@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.management.relation.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -144,25 +145,36 @@ public class UserService {
 		return user;
 	}
 	
-	public List<User> searchReceivers(Long userId, String bloodType, Float distance, String urgency) {
+	public List<User> searchReceivers(Long donorId, String bloodType, Float distance, String urgency, String lat, String lng) {
+		String sqlString = " select id, name, email, gender, birthdate, weight, urgency, blood_type, picture_path, hospital, reason, city ";
 		
-		String sqlString = " select id, name, email, gender, birthdate, weight, urgency, blood_type, picture_path, hospital, reason, city " +
-					" from user where id <> :userId " +
-					" and id not in ( " +
-					" 	select receiver_id from donation where donor_id = :userId" +
-					") " +
-					" and urgency is not null and hospital is not null and reason is not null " ;
-		
-		if(urgency != null){
-			sqlString += " and urgency = " + urgency + " ";
+		if(lat != null && lng != null){
+			sqlString += " , ( 6371 * acos( cos( radians("+lat+") ) * cos( radians( lat ) ) * cos( radians( lng ) - radians("+lng+") ) " +
+				    " + sin( radians("+lat+") ) * sin( radians( lat ) ) ) ) AS distance "; 
 		}
 		
-		if(bloodType != null){
-			sqlString += " and blood_type = " + bloodType + " ";
+		sqlString += " from user where id <> :donorId and role = :role " +
+					 " and id not in ( " +
+					 " 		select receiver_id from donation where donor_id = :donorId" +
+					 " )" ;
+		
+		if(urgency != null && !urgency.isEmpty()){
+			sqlString += " and urgency = '" + urgency + "' ";
 		}
+		
+		if(bloodType != null && !bloodType.isEmpty()){
+			sqlString += " and blood_type = '" + bloodType + "' ";
+		}
+		
+		if(lat != null && lng != null && distance != null){
+			sqlString += " order by distance ";
+		}
+		
+		System.out.println("\n" + sqlString + "\n");
 		
 		Query query = em.createNativeQuery(sqlString);
-		query.setParameter("userId", userId);
+		query.setParameter("donorId", donorId);
+		query.setParameter("role", RoleEnum.R.toString());
 		query.setMaxResults(12);
 		
 		List<Object[]> usersArray = (List<Object[]>) query.getResultList();
@@ -203,7 +215,13 @@ public class UserService {
 			user.setReason((String) item[10]);
 			user.setCity((String) item[11]);
 			
-			usersList.add(user);
+			if(lat != null && lng != null){
+				user.setDistance((Double) item[12]);
+			}
+			
+			if(user.getDistance() == null || user.getDistance() <= distance + 1){
+				usersList.add(user);
+			}
 		}
 		
 		return usersList;
